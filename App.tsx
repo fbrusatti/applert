@@ -1,63 +1,59 @@
 import { useEffect } from 'react';
 import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useRootNavigationState } from 'expo-router';
 import { useAuthStore } from '@/store/auth-store';
 import colors from '@/constants/colors';
 
-export default function Index() {
-  const router = useRouter();
-  const { isAuthenticated, isLoading } = useAuthStore();
-
-  useEffect(() => {
-    // Check authentication status after component is mounted
-    const checkAuth = async () => {
-      if (!isLoading) {
-        if (isAuthenticated) {
-          router.replace('/(app)/dashboard');
-        } else {
-          router.replace('/(auth)/login');
-        }
-      }  
-    };
-
-    // Use a small timeout to ensure the root layout is fully mounted
-    const timer = setTimeout(checkAuth, 100);
-    return () => clearTimeout(timer);
-  }, [isAuthenticated, isLoading, router]);
-
-  console.log('isLoading:', isLoading);
-  console.log('isAuthenticated:', isAuthenticated);
-
-  // Show a loading indicator while checking auth
-  return (
-    <View style={styles.container}>
-      <ActivityIndicator size="large" color={colors.primary} />
-    </View>
-  );
-}
+import Login from './(auth)/login'; 
+import Dashboard from './(app)/dashboard'; 
 
 // export default function Index() {
+//   const router = useRouter();
 //   const { isAuthenticated, isLoading } = useAuthStore();
+//   // const rootNavigationState = useRootNavigationState();
+//   // const navigatorReady = rootNavigationState?.key != null;
+  
+  
+//   useEffect(() => {
+//     // Si ya no estamos en el estado de carga
+//     if (!isLoading) {
+//       // Redirigir según el estado de autenticación
+//       if (isAuthenticated) {
+//         router.replace('/(app)/dashboard');
+//       } else {
+//         router.replace('/(auth)/login');
+//       }
+//     }
+//   }, [isLoading, isAuthenticated, navigatorReady]); // Dependencias del
 
-//   // Mostrar un mensaje mientras se verifica el estado de la autenticación
-//   if (isLoading) {
-//     return (
-//       <View style={styles.container}>
-//         <ActivityIndicator size="large" color={colors.primary} />
-//         <Text style={styles.message}>Verificando autenticación...</Text>
-//       </View>
-//     );
-//   }
-
-//   // Mostrar un mensaje dependiendo del estado de autenticación
+//   // Show a loading indicator while checking auth
 //   return (
 //     <View style={styles.container}>
-//       <Text style={styles.message}>
-//         {isAuthenticated ? 'Bienvenido a la app!' : 'No estás autenticado. Por favor, inicia sesión.'}
-//       </Text>
+//       <ActivityIndicator size="large" color={colors.primary} />
 //     </View>
 //   );
 // }
+
+export default function Index() {
+  const { isAuthenticated, isLoading } = useAuthStore();
+
+  // Mostrar un mensaje mientras se verifica el estado de la autenticación
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color={colors.primary} />
+        <Text style={styles.message}>Verificando autenticación...</Text>
+      </View>
+    );
+  }
+
+  // Mostrar un mensaje dependiendo del estado de autenticación
+  return (
+    <View style={styles.container}>
+      {isAuthenticated ? <Dashboard /> : <Login />}
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {

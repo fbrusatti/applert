@@ -9,7 +9,7 @@ import {
   RefreshControl,
   SafeAreaView,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, Redirect } from 'expo-router';
 import { LogOut, Bell, User } from 'lucide-react-native';
 import { useAuthStore } from '@/store/auth-store';
 import { useAlertStore } from '@/store/alert-store';
@@ -36,20 +36,25 @@ export default function DashboardScreen() {
   };
 
   const handleCategoryPress = (category: AlertCategory) => {
-    router.push(`/category/${category}`);
+    // router.push(`/category/${category}`);
+    <Redirect href={`/category/${category}`} />;
   };
 
   const handleAlertPress = (alertId: string) => {
-    router.push(`/alert/${alertId}`);
+    // router.push(`/alert/${alertId}`);
+    <Redirect href={`/alert/${alertId}`} />;
   };
 
   const handleCreateAlert = () => {
-    router.push('/create-alert');
+    // router.push('/create-alert');
+    <Redirect href="/create-alert" />;
   };
 
   const handleLogout = () => {
     logout();
-    router.replace('/(auth)/login');
+
+    // router.push('/(auth)/login');
+    return <Redirect href="/login" />;
   };
 
   // Count alerts by category and filter for recent ones

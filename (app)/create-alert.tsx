@@ -9,7 +9,7 @@ import {
   Platform,
   SafeAreaView,
 } from 'react-native';
-import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
+import { useLocalSearchParams, useRouter, Stack, Redirect } from 'expo-router';
 import { Shield, AlertTriangle, Flame, X } from 'lucide-react-native';
 import { useAuthStore } from '@/store/auth-store';
 import { useAlertStore } from '@/store/alert-store';
@@ -80,7 +80,8 @@ export default function CreateAlertScreen() {
         } : {}),
       });
       
-      router.push('/(app)/dashboard');
+      // router.push('/(app)/dashboard');
+      <Redirect href="/(app)/dashboard" />;
     } catch (error) {
       console.error('Failed to create alert:', error);
     }
