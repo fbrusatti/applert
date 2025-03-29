@@ -1,11 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect } from 'react';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useAuthStore } from '@/store/auth-store';
+import colors from '@/constants/colors';
 
-export default function App() {
+export default function Index() {
+  const router = useRouter();
+  const { isAuthenticated, isLoading } = useAuthStore();
+
+  useEffect(() => {
+    // Check authentication status after component is mounted
+    const checkAuth = async () => {
+      if (!isLoading) {
+        if (isAuthenticated) {
+          router.replace('/(app)/dashboard');
+        } else {
+          router.replace('/(auth)/login');
+        }
+      }
+    };
+
+    // Use a small timeout to ensure the root layout is fully mounted
+    const timer = setTimeout(checkAuth, 100);
+    return () => clearTimeout(timer);
+  }, [isAuthenticated, isLoading, router]);
+
+  // Show a loading indicator while checking auth
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <ActivityIndicator size="large" color={colors.primary} />
     </View>
   );
 }
@@ -13,8 +36,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background,
   },
 });
