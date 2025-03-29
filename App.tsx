@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuthStore } from '@/store/auth-store';
 import colors from '@/constants/colors';
@@ -17,7 +17,7 @@ export default function Index() {
         } else {
           router.replace('/(auth)/login');
         }
-      }
+      }  
     };
 
     // Use a small timeout to ensure the root layout is fully mounted
@@ -33,11 +33,40 @@ export default function Index() {
   );
 }
 
+// export default function Index() {
+//   const { isAuthenticated, isLoading } = useAuthStore();
+
+//   // Mostrar un mensaje mientras se verifica el estado de la autenticación
+//   if (isLoading) {
+//     return (
+//       <View style={styles.container}>
+//         <ActivityIndicator size="large" color={colors.primary} />
+//         <Text style={styles.message}>Verificando autenticación...</Text>
+//       </View>
+//     );
+//   }
+
+//   // Mostrar un mensaje dependiendo del estado de autenticación
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.message}>
+//         {isAuthenticated ? 'Bienvenido a la app!' : 'No estás autenticado. Por favor, inicia sesión.'}
+//       </Text>
+//     </View>
+//   );
+// }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.background,
+  },
+  message: {
+    fontSize: 16,
+    color: colors.text,
+    textAlign: 'center',
+    marginTop: 10,
   },
 });
