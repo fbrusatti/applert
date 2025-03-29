@@ -46,6 +46,9 @@ For Android:
 npx expo run:android
 ```
 
+## App Structure
+![App Diagram](assets/diagram.png)
+
 ## Contributing
 
 Pull requests are welcome! Feel free to open an issue if you find a bug or have a feature request.
