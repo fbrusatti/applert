@@ -25,6 +25,9 @@ export default function Index() {
     return () => clearTimeout(timer);
   }, [isAuthenticated, isLoading, router]);
 
+  console.log('isLoading:', isLoading);
+  console.log('isAuthenticated:', isAuthenticated);
+
   // Show a loading indicator while checking auth
   return (
     <View style={styles.container}>
